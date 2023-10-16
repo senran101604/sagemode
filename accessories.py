@@ -41,7 +41,6 @@ def color(text, fg: str, bg="") -> str:
         "lightred": Fore.LIGHTRED_EX,
         "lightblue": Fore.LIGHTBLUE_EX,
         "lightyellow": Fore.LIGHTYELLOW_EX,
-        "lightcyan": Fore.LIGHTCYAN_EX,
         "lightmagenta": Fore.LIGHTMAGENTA_EX,
     }
     # also create a dictionary of background colors
@@ -162,7 +161,7 @@ def status(username, site, url, sign):
     return
 
 
-def start(banner, delay=0.2):
+def start(banner, delay=0.001):
     """
     Parameters:
         banner
@@ -171,16 +170,39 @@ def start(banner, delay=0.2):
     # import random
     from time import sleep
 
-    for s in banner:
-        sleep(delay)
-        print(color(s, "green"))
+    for line in banner.split("\n"):
+        for character in line:
+            if character in ["#", "@", "%", "&"]:
+                print(color(character, "green"), end="", flush=True)
+                # print(character, end='', flush=True)
+            else:
+                print(color(character, "lightred"), end="", flush=True)
+        print()
 
 
-ascii_art = [
-    "░██████╗░█████╗░░██████╗░███████╗███╗░░░███╗░█████╗░██████╗░███████╗",
-    "██╔════╝██╔══██╗██╔════╝░██╔════╝████╗░████║██╔══██╗██╔══██╗██╔════╝",
-    "╚█████╗░███████║██║░░██╗░█████╗░░██╔████╔██║██║░░██║██║░░██║█████╗░░",
-    "░╚═══██╗██╔══██║██║░░╚██╗██╔══╝░░██║╚██╔╝██║██║░░██║██║░░██║██╔══╝░░",
-    "██████╔╝██║░░██║╚██████╔╝███████╗██║░╚═╝░██║╚█████╔╝██████╔╝███████╗",
-    "╚═════╝░╚═╝░░╚═╝░╚═════╝░╚══════╝╚═╝░░░░░╚═╝░╚════╝░╚═════╝░╚══════╝",
-]
+ascii_art = """
+       ____                __  ___        __
+      / __/__ ____ ____   /  |/  /__  ___/ /__
+     _\ \/ _ `/ _ `/ -_) / /|_/ / _ \/ _  / -_)
+    /___/\_,_/\_, /\__/ /_/  /_/\___/\_,_/\__/
+             /___/
+
+                  @@@%%%%%@@@
+              @%##`````@`````##&@
+            @##````````@````````##@
+          @%#`````````@@@`````````#%@
+          &#``````````@@@``````````#&
+         @#````@@@@@@@@@@@@@@@@@````#@
+         @%@``@@@@@@@@@@@@@@@@@@@``@%@
+         @%@```@@@@@@@@@@@@@@@@@```#%@
+         @@# `````````@@@``````````#@@
+          &#``````````@@@``````````#&
+           @##`````````@`````````##@
+             @##```````@``````###@
+                @@#````@````#@@
+                  @@@%%%%%@@@
+"""
+
+
+if __name__ == "__main__":
+    start(ascii_art)
