@@ -173,7 +173,7 @@ def start(banner, delay=0.001):
     for line in banner.split("\n"):
         for character in line:
             if character in ["#", "@", "%", "&"]:
-                print(color(character, "green"), end="", flush=True)
+                print(color(character, "yellow"), end="", flush=True)
                 # print(character, end='', flush=True)
             else:
                 print(color(character, "lightred"), end="", flush=True)
