@@ -12,7 +12,7 @@ and cybersecurity enthusiasts in their research.
 ```console
 git clone https://github.com/senran101604/sagemode
 ```
-**change directory to sagemode **
+**change directory to sagemode**
 ```console
 cd sagemode
 ```
