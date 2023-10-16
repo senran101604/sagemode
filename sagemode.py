@@ -117,8 +117,15 @@ def sagemode(username: str, specific_site=None, dont_write=False):
             "lightgreen",
             "yellow",
         )
+        dynamic_test_print(
+            "@",
+            f"Results stored in: {color(result_file, 'lightgreen')}",
+            "yellow",
+            "lightred",
+            "lightblue",
+        )
 
-    except exceptions.ConnectionError:
+    except (exceptions.ConnectionError, requests.exceptions.ConnectionError):
         dynamic_test_print(
             "!!", "Please Check Internet Connection\n", "red", "lightred", "gray"
         )
