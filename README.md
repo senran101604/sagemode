@@ -73,8 +73,10 @@ $python sagemode.py <target_username>
 
 
 ## Disclaimer
-Sagemode Jutsu is intended for ethical and legal use. Users are responsible for
-adhering to applicable laws and regulations while utilizing the tool.
+* Sagemode Jutsu is intended for ethical and legal use. Users are responsible for
+  adhering to applicable laws and regulations while utilizing the tool.
+*  Please be reminded that Sagemode is still in development and might return
+  false results.
 
 
 ## Contributions
