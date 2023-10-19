@@ -3,6 +3,31 @@ Accesories used to design and color the
 output text in terminals
 """
 
+from rich.console import Console
+
+ascii_art = """
+       ____                __  ___        __
+      / __/__ ____ ____   /  |/  /__  ___/ /__
+     _\ \/ _ `/ _ `/ -_) / /|_/ / _ \/ _  / -_)
+    /___/\_,_/\_, /\__/ /_/  /_/\___/\_,_/\__/
+             /___/
+
+                  @@@%%%%%@@@
+              @%##`````@`````##&@
+            @##````````@````````##@
+          @%#`````````@@@`````````#%@
+          &#``````````@@@``````````#&
+         @#````@@@@@@@@@@@@@@@@@````#@
+         @%@``@@@@@@@@@@@@@@@@@@@``@%@
+         @%@```@@@@@@@@@@@@@@@@@```#%@
+         @@# `````````@@@``````````#@@
+          &#``````````@@@``````````#&
+           @##`````````@`````````##@
+             @##```````@``````###@
+                @@#````@````#@@
+                  @@@%%%%%@@@
+"""
+
 
 # script that is used to give colors to output text
 def color(text, fg: str, bg="") -> str:
@@ -135,32 +160,6 @@ def dynamic_test_print(
     print(result)
 
 
-def status(username, site, url, sign):
-    """
-    Helper function for sagemode
-
-    Positional Arguments:
-        username
-        site
-        url
-
-    Keyword Argument:
-        sign        -- sign status: + or -
-
-    return:
-        Nothing
-    """
-    from rich.console import Console
-
-    console = Console()
-    with console.status(f"[*] Searching for target: {username}") as status:
-        if sign == "+":
-            console.log(f"[red][[green]+[red]] [green]{site}: [blue]{url}")
-        elif sign == "-":
-            console.log(f"[black][[red]-[black]] [blue]{site}: " + "[yellow]Not Found!")
-    return
-
-
 def start(banner, delay=0.001):
     """
     Parameters:
@@ -180,28 +179,50 @@ def start(banner, delay=0.001):
         print()
 
 
-ascii_art = """
-       ____                __  ___        __
-      / __/__ ____ ____   /  |/  /__  ___/ /__
-     _\ \/ _ `/ _ `/ -_) / /|_/ / _ \/ _  / -_)
-    /___/\_,_/\_, /\__/ /_/  /_/\___/\_,_/\__/
-             /___/
+class Notify:
+    def __init__(self):
+        self.console = Console(log_time=False, log_path=False)
 
-                  @@@%%%%%@@@
-              @%##`````@`````##&@
-            @##````````@````````##@
-          @%#`````````@@@`````````#%@
-          &#``````````@@@``````````#&
-         @#````@@@@@@@@@@@@@@@@@````#@
-         @%@``@@@@@@@@@@@@@@@@@@@``@%@
-         @%@```@@@@@@@@@@@@@@@@@```#%@
-         @@# `````````@@@``````````#@@
-          &#``````````@@@``````````#&
-           @##`````````@`````````##@
-             @##```````@``````###@
-                @@#````@````#@@
-                  @@@%%%%%@@@
-"""
+    # notify the user how many sites it will search
+    def notify_start(self, username, sites):
+        start(ascii_art, delay=0.1)
+        dynamic_test_print(
+            "*",
+            f"Searching {len(sites)} sites for target: ",
+            "red",
+            "lightblue",
+            "yellow",
+            another_text=f"{username}\n",
+            another_text_color="yellow",
+        )
+
+    # notify the user how many sites the username has been found
+    def notify_positive_res(self, username, count):
+        dynamic_test_print(
+            "+",
+            f"Found {color(username, 'red')} {color('in', 'lightgreen')} {color(count, 'magenta')} sites",
+            "lightred",
+            "lightgreen",
+            "yellow",
+        )
+
+    # notify the user where the result is stored
+    def notify_stored_result(self, result_file):
+        dynamic_test_print(
+            "@",
+            f"Results stored in: {color(result_file, 'lightgreen')}",
+            "yellow",
+            "lightred",
+            "lightblue",
+        )
+
+    def notify_not_found(self, site):
+        self.console.log(
+            f"[black][[red]-[black]] [blue]{site}: " + "[yellow]Not Found!"
+        )
+
+    def notify_found(self, site, url):
+        self.console.log(f"[red][[green]+[red]] [green]{site}: " + f"[blue]{url}")
 
 
 if __name__ == "__main__":
