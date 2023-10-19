@@ -1,162 +1,76 @@
-# TODO: make a an option to save or not save the result of the search
+# TODO: add parameter to only print positive results
 import os
-import random
+import datetime
 import threading
-
+import requests
 from argparse import ArgumentParser
 
-import requests
-
-from accessories import ascii_art
-from accessories import dynamic_test_print
-from accessories import color
-from accessories import status
-from accessories import start
-from requests import exceptions
-from rich.console import Console
+from accessories import dynamic_test_print, Notify
 from sites import sites
 
-console = Console()
-# count the number of sites where the user is located
-positive_count = 0
-# ensure that only one thread can access at a time to avoid unexpected result
-# to prevent race conditions: threads accessing shared resource at the same time
-count_lock = threading.Lock()
 
+class Sagemode(Notify):
+    def __init__(self):
+        super().__init__()
+        self.positive_count = 0
 
-def check_site(username: str, site: str, url: str, dont_write, result_file):
-    global positive_count
-    # get request to site
-    url = url.format(username)
-    r = requests.get(url)
-    # check the if the status code is okay
-    if r.status_code == 200 and username in r.text:
-        # acquire the lock
-        with count_lock:
-            positive_count += 1
-        console.log(f"[red][[green]+[red]] [green]{site}: " + f"[blue]{url}")
-        # check if the folder for storing results does not exist
-        if not os.path.exists("data"):
-            os.mkdir("data")
-        # write to a file named as the username being searched
-        with open(result_file, "a") as f:
-            f.write(f"{url}\n")
-    else:
-        console.log(f"[black][[red]-[black]] [blue]{site}: " + "[yellow]Not Found!")
+    # check for the username exists in the site
+    def check_site(self, username, site, url, result_file):
+        url = url.format(username)
+        response = requests.get(url)
+        if response.status_code == 200 and username in response.text:
+            # to prevent multiple threads from accessing/modifying the positive
+            # counts simultaneously and prevent race conditions.
+            with threading.Lock():
+                self.positive_count += 1
+            self.notify_found(site, url)
+            with open(result_file, "a") as f:
+                f.write(f"{url}\n")
+        else:
+            self.notify_not_found(site)
 
+    def sagemode(self, username):
+        self.notify_start(username, sites)
+        result_file = os.path.join("data", f"{username}.txt")
 
-def sagemode(username: str, specific_site=None, dont_write=False):
-    """
-    Used to search for usernames using the Sagemode Jutsu
-    Parameter:
-        username            -- username to search for
+        current_datetime = datetime.datetime.now()
+        date = current_datetime.strftime("%m/%d/%Y")
+        time = current_datetime.strftime("%I:%M %p")
 
-    Optional Parameter:
-        specific_site       -- specific site to search for username
-    """
-    start(ascii_art, delay=0.1)
-    if specific_site:
-        # check to see if the site is a list or a single string if it is a list
-        # that means the user gave 2 sites or more to search for in the term
-        # then change the status message
-        if isinstance(specific_site, list):
-            dynamic_test_print(
-                "*",
-                f"Searching {len(specific_site)} sites for target: ",
-                "red",
-                "lightblue",
-                "yellow",
-                another_text=username,
-                another_text_color="yellow",
-            )
-        elif isinstance(specific_site, str):
-            dynamic_test_print(
-                "*",
-                f"Searching 1 site for target: ",
-                "red",
-                "lightblue",
-                "yellow",
-                another_text=username,
-                another_text_color="yellow",
-            )
+        with open(result_file, "a") as file:
+            file.write(f"\n\n{29*'#'} {date}, {time} {29*'#'}\n\n")
 
-    else:
-        # check the default list of sites for the suername message
-        dynamic_test_print(
-            "*",
-            f"Searching {len(sites)} sites for target: ",
-            "red",
-            "lightblue",
-            "yellow",
-            another_text=username,
-            another_text_color="yellow",
-        )
+        threads = []
 
-    print(color("...\n", "lightgreen"))
+        try:
+            with self.console.status(f"[*] Searching for target: {username}"):
+                for site, url in sites.items():
+                    thread = threading.Thread(
+                        target=self.check_site, args=(username, site, url,
+                                                      result_file)
+                    )
+                    threads.append(thread)
+                    thread.start()
 
-    result_file = os.path.join("data", f"{username}.txt")
-    # console = Console()
-    threads = []
-    try:
-        with console.status(f"[*] Searching for target: {username}"):
-            for site, url in sites.items():
-                thread = threading.Thread(
-                    target=check_site,
-                    args=(username, site, url, dont_write, result_file),
-                )
-                threads.append(thread)
-                thread.start()
+                for thread in threads:
+                    thread.join()
 
-            for thread in threads:
-                thread.join()
+            # notify how many sites the username has been found
+            self.notify_positive_res(username, self.positive_count)
 
-        dynamic_test_print(
-            "+",
-            f"Found {color(username, 'red')} {color('in', 'lightgreen')} {color(positive_count, 'magenta')} sites",
-            "lightred",
-            "lightgreen",
-            "yellow",
-        )
-        dynamic_test_print(
-            "@",
-            f"Results stored in: {color(result_file, 'lightgreen')}",
-            "yellow",
-            "lightred",
-            "lightblue",
-        )
+            # notify where the result is stored
+            self.notify_stored_result(result_file)
 
-    except (exceptions.ConnectionError, requests.exceptions.ConnectionError):
-        dynamic_test_print(
-            "!!", "Please Check Internet Connection\n", "red", "lightred", "gray"
-        )
-    except KeyboardInterrupt:
-        dynamic_test_print("!!", f"Keyboard Interrupt\n", "red", "lightred", "gray")
-    return None
+        except (requests.exceptions.ConnectionError, KeyboardInterrupt):
+            self.console.print_exception()
 
 
 def main():
-    # TODO: add --no-write or -nw argument
     parser = ArgumentParser(description="Sagemode Jutsu: Unleash Your Inner Ninja")
     parser.add_argument("username", help="username to search for", action="store")
-    parser.add_argument(
-        "--site",
-        "-s",
-        help="specify a site(s) to search for",
-        action="store",
-        dest="site",
-        metavar="",
-    )
     args = parser.parse_args()
 
-    if args.site:
-        if args.site.find(",") != -1:
-            sites = args.site.split(",")
-            sagemode(args.username, sites)
-        else:
-            sagemode(args.username, args.site)
-
-    else:
-        sagemode(args.username)
+    Sagemode().sagemode(args.username)
 
 
 if __name__ == "__main__":
