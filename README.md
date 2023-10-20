@@ -27,11 +27,10 @@ python3 -m pip install -r requirements.txt
 
 ## Key Features
 - **Easy to Use:** A user-friendly tool designed for effortless username
-  searches without unnecessary complications.
-- **Focused Searches:** Conduct targeted searches on specific websites or
-  social media platforms, tailoring your investigation as needed.
+  hunting without unnecessary complications.
 - **Real-time Feedback:** Receive instant feedback on positive search results,
   providing insight into the username's online presence.
+- Curated List of sites for more manageable investigation.
 
 ## How to Use
 ```
