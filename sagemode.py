@@ -66,6 +66,9 @@ class Sagemode(Notify):
 
 
 def main():
+    if not os.path.exists("data"):
+        os.mkdir("data")
+
     parser = ArgumentParser(description="Sagemode Jutsu: Unleash Your Inner Ninja")
     parser.add_argument("username", help="username to search for", action="store")
     args = parser.parse_args()
