@@ -217,12 +217,12 @@ class Notify:
         )
 
     def notify_not_found(self, site):
-        self.console.log(
+        self.console.print(
             f"[black][[red]-[black]] [blue]{site}: " + "[yellow]Not Found!"
         )
 
     def notify_found(self, site, url):
-        self.console.log(f"[red][[green]+[red]] [green]{site}: " + f"[blue]{url}")
+        self.console.print(f"[red][[green]+[red]] [green]{site}: " + f"[blue]{url}")
 
 
 if __name__ == "__main__":
