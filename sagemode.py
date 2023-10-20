@@ -4,7 +4,7 @@ import threading
 import requests
 from argparse import ArgumentParser
 
-from accessories import dynamic_test_print, Notify
+from accessories import Notify
 from sites import sites
 
 
