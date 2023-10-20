@@ -77,9 +77,12 @@ $python sagemode.py <target_username>
 *  Please be reminded that Sagemode is still in development and might return
   false results.
 
+## TODO
+- [ ] Fix Soft 404 error responses.
+
 
 ## Contributions
 Contributions and feedback are appreciated! Feel free to submit issues,
 suggestions, or enhancements via GitHub.
 
----
+-------------------------------------------------------------------------------
