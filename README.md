@@ -24,29 +24,28 @@ cd sagemode
 python3 -m pip install -r requirements.txt
 ```
 
-
 ## Key Features
 - **Easy to Use:** A user-friendly tool designed for effortless username
   hunting without unnecessary complications.
 - **Real-time Feedback:** Receive instant feedback on positive search results,
   providing insight into the username's online presence.
 - Curated List of sites for more manageable investigation.
+  Users are encouraged to submit pull requests if they fix issues or add useful features.
 
 ## How to Use
 ```
 console
-$ python sagemode.py --help
-usage: sagemode.py [-h] [--site] username
+❯ python3 .\sagemode.py --help
+usage: sagemode.py [-h] [-f] username
 
 Sagemode Jutsu: Unleash Your Inner Ninja
 
 positional arguments:
-  username      username to search for
+  username     username to search for
 
 optional arguments:
-  -h, --help    show this help message and exit
-  --site , -s   specify a site(s) to search for
-
+  -h, --help   show this help message and exit
+  -f, --found  output only found sites
 ```
 #### To search for a <target_username> example
 ```console
@@ -54,8 +53,8 @@ $python sagemode.py <target_username>
 ```
 
 1. Enter the target username.
-2. Optionally, specify particular websites or social media platforms for a precise search.
-3. Sagemode Jutsu will deliver real-time results, highlighting where the username has been found online.
+2. Sagemode Jutsu will deliver real-time results, highlighting where the
+   username has been found online.
 
 
 ## Use Cases
@@ -74,8 +73,11 @@ $python sagemode.py <target_username>
 ## Disclaimer
 * Sagemode Jutsu is intended for ethical and legal use. Users are responsible for
   adhering to applicable laws and regulations while utilizing the tool.
-*  Please be reminded that Sagemode is still in development and might return
+* Please be reminded that Sagemode is still in development and might return
   false results.
+* I'm in the process of learning and improving. If you find or fix issues or
+  have feature suggestions, your pull requests are welcome.
+
 
 ## TODO
 - [ ] Fix Soft 404 error responses.
