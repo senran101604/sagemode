@@ -157,11 +157,11 @@ class Notify:
         start(ascii_art, delay=0.1)
 
         print(
-            color('[', 'yellow')
-            + color('*', 'lightred')
-            + color('] ', 'yellow')
-            + color(f'Searching {len(sites)} sites for target: ', 'lightblue')
-            + color(username + '\n', 'lightyellow')
+            color("[", "yellow")
+            + color("*", "lightred")
+            + color("] ", "yellow")
+            + color(f"Searching {len(sites)} sites for target: ", "lightblue")
+            + color(username + "\n", "lightyellow")
         )
 
     # notify the user how many sites the username has been found
@@ -195,7 +195,25 @@ class Notify:
     def notify_found(self, site, url):
         self.console.print(f"[red][[green]+[red]] [green]{site}: " + f"[blue]{url}")
 
+    def notify_update(self, local_version, remote_version):
+        print(
+            color("[", "lightred")
+            + color("!", "lightred")
+            + color("] ", "lightred")
+            + color("Update Available!\n", "yellow")
+            + color("[", "lightred")
+            + color("!", "lightred")
+            + color("] ", "lightred")
+            + color(f"You are running Version: ", "lightyellow")
+            + color(local_version, "lightgreen")
+            + color("\n[", "lightred")
+            + color("!", "lightred")
+            + color("] ", "lightred")
+            + color("New Version Available: ", "lightyellow")
+            + color(remote_version, "lightgreen")
+        )
+
 
 if __name__ == "__main__":
     start(ascii_art)
-    color('', 'show colors')
+    color("", "show colors")
