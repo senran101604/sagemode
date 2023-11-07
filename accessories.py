@@ -129,37 +129,6 @@ def color(text, fg: str, bg="") -> str:
     return output
 
 
-def dynamic_test_print(
-    sign: str,
-    text: str,
-    sign_color: str,
-    text_color: str,
-    brackets_color: str,
-    another_text="",
-    another_text_color="",
-) -> None:
-    """
-    Parameters
-        sign               -- sign of the output (common +, -, *)
-        text               -- text to print
-        sign_color          -- color of the sign
-        text_color          -- color of the text
-        brackets_color      -- the color of the brackets surrounding the sign
-
-    Optional Parameters:
-        another_text        -- text to show after the first text
-        another_text_color  -- color of the another_text parameter
-    """
-    result = (
-        color("[", brackets_color)
-        + color(sign, sign_color)
-        + color("] ", brackets_color)
-        + color(text, text_color)
-        + color(another_text, another_text_color)
-    )
-    print(result)
-
-
 def start(banner, delay=0.001):
     """
     Parameters:
@@ -186,34 +155,36 @@ class Notify:
     # notify the user how many sites it will search
     def notify_start(self, username, sites):
         start(ascii_art, delay=0.1)
-        dynamic_test_print(
-            "*",
-            f"Searching {len(sites)} sites for target: ",
-            "red",
-            "lightblue",
-            "yellow",
-            another_text=f"{username}\n",
-            another_text_color="yellow",
+
+        print(
+            color('[', 'yellow')
+            + color('*', 'lightred')
+            + color('] ', 'yellow')
+            + color(f'Searching {len(sites)} sites for target: ', 'lightblue')
+            + color(username + '\n', 'lightyellow')
         )
 
     # notify the user how many sites the username has been found
     def notify_positive_res(self, username, count):
-        dynamic_test_print(
-            "+",
-            f"Found {color(username, 'red')} {color('in', 'lightgreen')} {color(count, 'magenta')} sites",
-            "lightred",
-            "lightgreen",
-            "yellow",
+        print(
+            color("[", "yellow")
+            + color("+", "lightred")
+            + color("] ", "yellow")
+            + color("Found ", "lightgreen")
+            + color(username, "lightred")
+            + color(" in ", "lightgreen")
+            + color(count, "lightmagenta")
+            + color(" sites", "lightgreen")
         )
 
     # notify the user where the result is stored
     def notify_stored_result(self, result_file):
-        dynamic_test_print(
-            "@",
-            f"Results stored in: {color(result_file, 'lightgreen')}",
-            "yellow",
-            "lightred",
-            "lightblue",
+        print(
+            color("[", "lightgreen")
+            + color("@", "yellow")
+            + color("] ", "lightgreen")
+            + color("Results stored in: ", "lightred")
+            + color(result_file, "lightgreen")
         )
 
     def notify_not_found(self, site):
@@ -227,3 +198,4 @@ class Notify:
 
 if __name__ == "__main__":
     start(ascii_art)
+    color('', 'show colors')
