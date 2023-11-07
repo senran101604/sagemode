@@ -213,6 +213,15 @@ class Notify:
             + color(remote_version, "lightgreen")
         )
 
+    def notify_update_error(self, error):
+        print(
+            color("[", "lightred")
+            + color("!", "lightred")
+            + color("] ", "lightred")
+            + color("A problem occured while checking for an update: ", "yellow")
+            + color(error, "lightred")
+        )
+
 
 if __name__ == "__main__":
     start(ascii_art)
