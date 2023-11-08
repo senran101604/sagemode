@@ -10,7 +10,7 @@ from accessories import Notify
 from sites import sites
 
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 
 class Sagemode(Notify):
@@ -71,7 +71,7 @@ class Sagemode(Notify):
     def check_for_update(self):
         try:
             r = requests.get(
-                "https://raw.githubusercontent.com/senran101604/sagemode/main/sagemode.py"
+                "https://raw.githubusercontent.com/senran101604/sagemode/master/sagemode.py"
             )
 
             remote_version = str(re.findall('__version__ = "(.*)"', r.text)[0])
@@ -113,8 +113,9 @@ def main():
     sagemode = Sagemode(args.username, found_only=args.found)
 
     if args.username != None:
-        sagemode.check_for_update()
         sagemode.start()
+
+    sagemode.check_for_update()
 
 
 if __name__ == "__main__":
