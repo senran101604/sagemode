@@ -1,4 +1,6 @@
+# TODO add a function to check for updates from my github repository
 import os
+import re
 import datetime
 import threading
 import requests
@@ -6,6 +8,9 @@ from argparse import ArgumentParser
 
 from accessories import Notify
 from sites import sites
+
+
+__version__ = "1.0.0"
 
 
 class Sagemode(Notify):
@@ -16,7 +21,6 @@ class Sagemode(Notify):
         self.result_file = os.path.join("data", f"{self.username}.txt")
         self.found_only = found_only
 
-    # check for the username exists in the site
     def check_site(self, site, url):
         url = url.format(self.username)
         response = requests.get(url)
@@ -32,6 +36,9 @@ class Sagemode(Notify):
             self.notify_not_found(site)
 
     def start(self):
+        """
+        Start the search.
+        """
         self.notify_start(self.username, sites)
 
         current_datetime = datetime.datetime.now()
@@ -55,20 +62,38 @@ class Sagemode(Notify):
 
             # notify how many sites the username has been found
             self.notify_positive_res(self.username, self.positive_count)
-
             # notify where the result is stored
             self.notify_stored_result(self.result_file)
 
-        except (requests.exceptions.ConnectionError, KeyboardInterrupt):
+        except Exception:
             self.console.print_exception()
+
+    def check_for_update(self):
+        try:
+            r = requests.get(
+                "https://raw.githubusercontent.com/senran101604/sagemode/main/sagemode.py"
+            )
+
+            remote_version = str(re.findall('__version__ = "(.*)"', r.text)[0])
+            local_version = __version__
+
+            if remote_version != local_version:
+                self.notify_update(local_version, remote_version)
+
+        except Exception as error:
+            self.notify_update_error(error)
 
 
 def main():
+    # TODO: add a argument to show version info without giving the required
+    # username argument.
     if not os.path.exists("data"):
         os.mkdir("data")
 
     parser = ArgumentParser(description="Sagemode Jutsu: Unleash Your Inner Ninja")
-    parser.add_argument("username", help="username to search for", action="store")
+    parser.add_argument(
+        "username", help="username to search for", action="store", nargs="?"
+    )
     parser.add_argument(
         "-f",
         "--found",
@@ -76,10 +101,20 @@ def main():
         help="output only found sites",
         action="store_true",
     )
-
+    parser.add_argument(
+        "-v",
+        "--version",
+        dest="show_version",
+        help="Print Sagemode Version",
+        action="store_true",
+    )
     args = parser.parse_args()
 
-    Sagemode(args.username, found_only=args.found).start()
+    sagemode = Sagemode(args.username, found_only=args.found)
+
+    if args.username != None:
+        sagemode.check_for_update()
+        sagemode.start()
 
 
 if __name__ == "__main__":
