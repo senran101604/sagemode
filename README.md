@@ -29,23 +29,24 @@ python3 -m pip install -r requirements.txt
   hunting without unnecessary complications.
 - **Real-time Feedback:** Receive instant feedback on positive search results,
   providing insight into the username's online presence.
-- Curated List of sites for more manageable investigation.
+- **Curated List** of sites for more manageable investigation.
   Users are encouraged to submit pull requests if they fix issues or add useful features.
 
 ## How to Use
 ```
 console
-❯ python3 .\sagemode.py --help
-usage: sagemode.py [-h] [-f] username
+❯ python .\sagemode.py --help
+usage: sagemode.py [-h] [-f] [-v] [username]
 
 Sagemode Jutsu: Unleash Your Inner Ninja
 
 positional arguments:
-  username     username to search for
+  username       username to search for
 
 optional arguments:
-  -h, --help   show this help message and exit
-  -f, --found  output only found sites
+  -h, --help     show this help message and exit
+  -f, --found    output only found sites
+  -v, --version  Print Sagemode Version
 ```
 #### To search for a <target_username> example
 ```console
