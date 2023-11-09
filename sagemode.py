@@ -115,6 +115,10 @@ def main():
     if args.username != None:
         sagemode.start()
 
+    if args.show_version:
+        sagemode.notify_version(__version__)
+
+
     sagemode.check_for_update()
 
 

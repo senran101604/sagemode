@@ -222,6 +222,12 @@ class Notify:
             + color(error, "lightred")
         )
 
+    def notify_version(self, version):
+        print(
+            color("\nSageMode ", "lightyellow")
+            + color(version, "lightred")
+        )
+
 
 if __name__ == "__main__":
     start(ascii_art)
