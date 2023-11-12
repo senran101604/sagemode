@@ -82,6 +82,8 @@ $python sagemode.py <target_username>
 
 ## TODO
 - [ ] Fix Soft 404 error responses.
+- [ ] Add Tests
+- [ ] Clean Code :)
 
 
 ## Contributions
