@@ -36,7 +36,7 @@ python3 -m pip install -r requirements.txt
 ```
 console
 ❯ python .\sagemode.py --help
-usage: sagemode.py [-h] [-f] [-v] [username]
+usage: sagemode.py [-h] [-f] [-v] [-U] [username]
 
 Sagemode Jutsu: Unleash Your Inner Ninja
 
@@ -47,6 +47,8 @@ optional arguments:
   -h, --help     show this help message and exit
   -f, --found    output only found sites
   -v, --version  Print Sagemode Version
+  -U, --update   update Sagemode
+
 ```
 #### To search for a <target_username> example
 ```console
