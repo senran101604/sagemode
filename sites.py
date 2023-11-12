@@ -102,9 +102,9 @@ sites = {
 }
 
 if __name__ == "__main__":
-    from accessories import color
+    from rich import print as rprint
 
     for site, url in sites.items():
-        print(color(f"{site}: ", "lightgreen") + color(url, "blue"))
+        rprint(f"[bright_green]{site}: [blue]{url}")
 
-    print(color(f"\n{len(sites)} Sites", "magenta"))
+    rprint(f"\n[magenta]{len(sites)} Sites")
