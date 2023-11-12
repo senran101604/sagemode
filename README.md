@@ -24,6 +24,18 @@ cd sagemode
 python3 -m pip install -r requirements.txt
 ```
 
+## Reminder
+If you have early version of sagemode, please perform a manual update using:
+```console
+❯ git pull
+```
+Otherwise, if you're using SageMode v1.0.1, you can update using:
+
+```console
+❯ python3 sagemode.py -U
+```
+
+
 ## Key Features
 - **Easy to Use:** A user-friendly tool designed for effortless username
   hunting without unnecessary complications.
@@ -33,8 +45,7 @@ python3 -m pip install -r requirements.txt
   Users are encouraged to submit pull requests if they fix issues or add useful features.
 
 ## How to Use
-```
-console
+```console
 ❯ python .\sagemode.py --help
 usage: sagemode.py [-h] [-f] [-v] [-U] [username]
 
@@ -85,7 +96,7 @@ $python sagemode.py <target_username>
 ## TODO
 - [ ] Fix Soft 404 error responses.
 - [ ] Add Tests
-- [ ] Clean Code :)
+- [ ] Cleaner Code :)
 
 
 ## Contributions
