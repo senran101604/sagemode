@@ -60,7 +60,6 @@ sites = {
     # Gaming & Streaming Platforms
     "Steam": "https://steamcommunity.com/id/{}",
     "Twitch": "https://www.twitch.tv/{}",
-    "Xbox": "https://account.xbox.com/en-US/Profile?gamertag={}",
     "PlayStation": "https://my.playstation.com/profile/{}",
     "Nintendo": "https://en-americas-support.nintendo.com/app/social-profile",
     "Origin": "https://www.origin.com/usa/en-us/profile/{}/",
