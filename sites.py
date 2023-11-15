@@ -20,6 +20,8 @@ sites = {
     "edX": "https://www.edx.org/user/{}",
     "Udemy": "https://www.udemy.com/user/{}",
     # Professional & Business Networks
+    "Crunchbase": "https://www.crunchbase.com/person/{}",
+    "GitHub Gist": "https://gist.github.com/{}",
     "GitHub": "https://www.github.com/{}",
     "GitLab": "https://gitlab.com/{}",
     "Bitbucket": "https://bitbucket.org/{}",
@@ -28,6 +30,7 @@ sites = {
     "Stack Overflow": "https://stackoverflow.com/users/{}",
     # Creative & Multimedia Platforms
     "DeviantArt": "https://{}.deviantart.com",
+    "Patreon": "https://www.patreon.com/{}",
     "Flickr": "https://www.flickr.com/people/{}",
     "Vimeo": "https://vimeo.com/{}",
     "SoundCloud": "https://soundcloud.com/{}",
@@ -40,6 +43,8 @@ sites = {
     "Wix": "https://{}.wixsite.com/website",
     "Weebly": "https://{}.weebly.com",
     "WordPress": "https://{}.wordpress.com",
+    "LiveJournal": "https://{}.livejournal.com",
+    "BuzzFeed": "https://buzzfeed.com/{}",
     # Other Platforms
     "Gravatar": "https://en.gravatar.com/{}",
     "SlideShare": "https://www.slideshare.net/{}",
@@ -66,9 +71,9 @@ sites = {
     "Epic Games": "https://www.epicgames.com/account/personal?productName=&lang=en_US",
     "GOG": "https://www.gog.com/u/{}",
     "Ubisoft": "https://club.ubisoft.com/en-US/profile/{}",
+    "Spotify": "https://open.spotify.com/user/{}",
     # Additional Platforms
-    "Angellist": "https://angel.co/{}",
-    "Crunchbase": "https://www.crunchbase.com/person/{}",
+    "Wellfound": "https://wellfound.com/u/{}",
     "SlideShare": "https://www.slideshare.net/{}",
     "F6S": "https://www.f6s.com/{}",
     "Dribbble": "https://dribbble.com/{}",
@@ -97,17 +102,23 @@ sites = {
     "Wikipedia": "https://en.wikipedia.org/wiki/User:{}",
     "Reddit": "https://www.reddit.com/user/{}",
     "Slack": "https://{}.slack.com",
+    "MySpace": "https://www.myspace.com/{}",
+    "MyAnimeList": "https://myanimelist.net/profile/{}",
+    "BuyMeACoffee": "https://www.buymeacoffee.com/{}",
 }
 
+# indicators for false positive 200 responses
 soft404_indicators = [
     "This profile could not be found",
     "Sorry, this user was not found.",
     "Page not available",
     "Page Not Found",
     "the profile was either removed ",
-    "PAGE NOT FOUND",
     "The specified profile could not be found",
+    # for wordpress
     "doesn&apos;t&nbsp;exist",
+    "This page doesn't exist",
+    "404 Not Found",
 ]
 
 
