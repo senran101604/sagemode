@@ -65,7 +65,6 @@ sites = {
     "Origin": "https://www.origin.com/usa/en-us/profile/{}/",
     "Epic Games": "https://www.epicgames.com/account/personal?productName=&lang=en_US",
     "GOG": "https://www.gog.com/u/{}",
-    "Rockstar Games": "https://socialclub.rockstargames.com/member/{}",
     "Ubisoft": "https://club.ubisoft.com/en-US/profile/{}",
     # Additional Platforms
     "Angellist": "https://angel.co/{}",
@@ -99,6 +98,18 @@ sites = {
     "Reddit": "https://www.reddit.com/user/{}",
     "Slack": "https://{}.slack.com",
 }
+
+soft404_indicators = [
+    "This profile could not be found",
+    "Sorry, this user was not found.",
+    "Page not available",
+    "Page Not Found",
+    "the profile was either removed ",
+    "PAGE NOT FOUND",
+    "The specified profile could not be found",
+    "doesn&apos;t&nbsp;exist",
+]
+
 
 if __name__ == "__main__":
     from rich import print as rprint
