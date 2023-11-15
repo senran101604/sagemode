@@ -10,9 +10,10 @@ import threading
 import requests
 from argparse import ArgumentParser
 from rich.console import Console
+from bs4 import BeautifulSoup
 
 from accessories import Notify
-from sites import sites
+from sites import sites, soft404_indicators
 
 
 __version__ = "1.0.2"
@@ -27,19 +28,44 @@ class Sagemode:
         self.result_file = os.path.join("data", f"{self.username}.txt")
         self.found_only = found_only
 
+    # this function checks if the url not a false positive result, return false
+    def is_soft404(self, html_response):
+        # this is for checking the title bar of the page
+        soup = BeautifulSoup(html_response, "html.parser")
+        page_title = soup.title.string.strip() if soup.title else ""
+
+        # i know this is kinda messy but it currently solve.. reduce the problem
+        # in soft404 responses (false positives)
+        for error_indicator in soft404_indicators:
+            if (
+                # check if the error indicator is in the html string response
+                error_indicator.lower() in html_response.lower()
+                # check for the title bar of the page if there are anyi error_indicator
+                or error_indicator.lower() in page_title.lower()
+                # Specific check sites, since positive result will have the username in the title bar.
+                or page_title.lower() == "instagram"
+                # patreon's removed user
+                or page_title.lower() == "patreon logo"
+            ):
+                return True
+        return False
+
     def check_site(self, site, url):
         url = url.format(self.username)
         response = requests.get(url)
         if response.status_code == 200 and self.username in response.text:
-            # to prevent multiple threads from accessing/modifying the positive
-            # counts simultaneously and prevent race conditions.
-            with threading.Lock():
-                self.positive_count += 1
-            self.console.print(self.notify.found(site, url))
-            with open(self.result_file, "a") as f:
-                f.write(f"{url}\n")
-        if not self.found_only:
-            self.console.print(self.notify.not_found(site))
+            # further check to reduce false positive results
+            if not self.is_soft404(response.text):
+                # to prevent multiple threads from accessing/modifying the positive
+                # counts simultaneously and prevent race conditions.
+                with threading.Lock():
+                    self.positive_count += 1
+                self.console.print(self.notify.found(site, url))
+                with open(self.result_file, "a") as f:
+                    f.write(f"{url}\n")
+        else:
+            if not self.found_only:
+                self.console.print(self.notify.not_found(site))
 
     def start(self):
         """
