@@ -133,7 +133,7 @@ sites = {
     "Anilist": "https://anilist.co/user/{}",
     "note": "https://note.com/{}",
     "Minds": "https://www.minds.com/{}",
-    "uID": "http://uid.me/{}",
+    "uID": "https://uid.me/{}",
     "Interpals": "https://www.interpals.net/{}",
     "Geocaching": "https://www.geocaching.com/p/default.aspx?u={}",
     "Fur Affinity": "https://www.furaffinity.net/user/{}",

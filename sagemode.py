@@ -52,29 +52,32 @@ class Sagemode:
                 return True
         return False
 
-    def check_site(self, site: str, url: str):
+    def check_site(self, site: str, url: str, headers):
         url = url.format(self.username)
         # we need headers to avoid being blocked by requesting the website 403 error
-        headers = {"User-Agent": random.choice(user_agents)}
-        with requests.Session() as session:
-            response = session.get(url, headers=headers)
-        # further check to reduce false positive results
-        if (
-            response.status_code == 200
-            and self.username.lower() in response.text.lower()
-            and not self.is_soft404(response.text)
-        ):
-            # to prevent multiple threads from accessing/modifying the positive
-            # counts simultaneously and prevent race conditions.
-            with threading.Lock():
-                self.positive_count += 1
-            self.console.print(self.notify.found(site, url))
-            with open(self.result_file, "a") as f:
-                f.write(f"{url}\n")
-        # the site reurned 404 (user not found)
-        else:
-            if not self.found_only:
-                self.console.print(self.notify.not_found(site))
+        try:
+            with requests.Session() as session:
+                response = session.get(url, headers=headers)
+                # Raises an HTTPError for bad responses
+            # further check to reduce false positive results
+            if (
+                response.status_code == 200
+                and self.username.lower() in response.text.lower()
+                and not self.is_soft404(response.text)
+            ):
+                # to prevent multiple threads from accessing/modifying the positive
+                # counts simultaneously and prevent race conditions.
+                with threading.Lock():
+                    self.positive_count += 1
+                self.console.print(self.notify.found(site, url))
+                with open(self.result_file, "a") as f:
+                    f.write(f"{url}\n")
+            # the site reurned 404 (user not found)
+            else:
+                if not self.found_only:
+                    self.console.print(self.notify.not_found(site))
+        except Exception as  e:
+            self.notify.exception(site, e)
 
     def start(self):
         """
@@ -85,6 +88,7 @@ class Sagemode:
         current_datetime = datetime.datetime.now()
         date = current_datetime.strftime("%m/%d/%Y")
         time = current_datetime.strftime("%I:%M %p")
+        headers = {"User-Agent": random.choice(user_agents)}
 
         with open(self.result_file, "a") as file:
             file.write(f"\n\n{29*'#'} {date}, {time} {29*'#'}\n\n")
@@ -98,7 +102,7 @@ class Sagemode:
             ):
                 for site, url in sites.items():
                     # creates a new thread object
-                    thread = threading.Thread(target=self.check_site, args=(site, url))
+                    thread = threading.Thread(target=self.check_site, args=(site, url, headers))
                     # track the thread objects by storing it in the assigned threads list.
                     threads.append(thread)
                     # initiate the execution of the thread
