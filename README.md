@@ -25,16 +25,10 @@ python3 -m pip install -r requirements.txt
 ```
 
 ## Reminder
-If you have early version of sagemode, please perform a manual update using:
-```console
-❯ git pull
-```
-Otherwise, if you're using SageMode v1.0.1, you can update using:
-
+**Please regularly update SageMode for better user experience:**
 ```console
 ❯ python3 sagemode.py -U
 ```
-
 
 ## Key Features
 - **Easy to Use:** A user-friendly tool designed for effortless username
@@ -46,7 +40,7 @@ Otherwise, if you're using SageMode v1.0.1, you can update using:
 
 ## How to Use
 ```console
-❯ python .\sagemode.py --help
+❯ python3 .\sagemode.py --help
 usage: sagemode.py [-h] [-f] [-v] [-U] [username]
 
 Sagemode Jutsu: Unleash Your Inner Ninja
@@ -88,14 +82,15 @@ $python sagemode.py <target_username>
 * Sagemode Jutsu is intended for ethical and legal use. Users are responsible for
   adhering to applicable laws and regulations while utilizing the tool.
 * Please be reminded that Sagemode is still in development and might return
-  false results.
+  false results. Sites that are most prone to false positives are Facebook and
+  Khan Academy.
 * I'm in the process of learning and improving. If you find or fix issues or
   have feature suggestions, your pull requests are welcome.
 
 
 ## TODO
-- [ ] Fix Soft 404 error responses.
-- [ ] Add Tests
+- [X] Reduce soft 404 error responses.
+- [ ] Add Tests, Sites, etc...
 - [ ] Cleaner Code :)
 
 
