@@ -66,7 +66,9 @@ class Notify:
         return f"[bright_green][[yellow]@[bright_green]] [orange3]Results stored in: [bright_green]{result_file}\n"
 
     @staticmethod
-    def not_found(site: str) -> str:
+    def not_found(site: str, status_code="") -> str:
+        if status_code:
+            return f"[black][[red]-[black]] [blue]{site}: [yellow]Not Found! {status_code}"
         return f"[black][[red]-[black]] [blue]{site}: [yellow]Not Found!"
 
     @staticmethod
