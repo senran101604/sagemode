@@ -58,7 +58,7 @@ class Notify:
     # notify the user how many sites the username has been found
     @staticmethod
     def positive_res(username: str, count) -> str:
-        return f"\n[yellow][[bright_red]+[yellow]][bright_green] Found [bright_red]{username} [bright_green]in [bright_magenta]{count}[bright_green] sites"
+        return f"\n[yellow][[bright_red]+[yellow]][bright_green] Found [bright_red]{username} [bright_green]on [bright_magenta]{count}[bright_green] sites"
 
     # notify the user where the result is stored
     @staticmethod
