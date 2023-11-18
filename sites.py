@@ -25,6 +25,7 @@ sites = {
     "Dribbble": "https://dribbble.com/{}",
     "Stack Overflow": "https://stackoverflow.com/users/{}",
     # Creative & Multimedia Platforms
+    "Pinterest": "https://www.pinterest.com/{}",
     "DeviantArt": "https://{}.deviantart.com",
     "Patreon": "https://www.patreon.com/{}",
     "Flickr": "https://www.flickr.com/people/{}",
@@ -172,6 +173,7 @@ soft404_indicators = [
     "No longer a registered user",
     "No user ID specified or user does not exist!",
     "user does not exist",
+    "User not found.",
     "An error was encountered while processing your request",
     "Sorry, the page you were looking for doesn’t exist",
     "Wikipedia does not have a",
