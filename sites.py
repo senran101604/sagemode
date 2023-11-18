@@ -86,7 +86,6 @@ sites = {
     "ReverbNation": "https://www.reverbnation.com/{}",
     "Letterboxd": "https://letterboxd.com/{}",
     "Bandcamp": "https://bandcamp.com/{}",
-    "Dailymotion": "https://www.dailymotion.com/{}",
     "Vine": "https://vine.co/{}",
     "Quora": "https://www.quora.com/profile/{}",
     "Medium": "https://medium.com/@{}",
