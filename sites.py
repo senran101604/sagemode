@@ -175,6 +175,7 @@ soft404_indicators = [
     "An error was encountered while processing your request",
     "Sorry, the page you were looking for doesn’t exist",
     "Wikipedia does not have a",
+    "We could not find the page you were looking for, so we found something to make you laugh to make up for it",
 ]
 
 user_agents = [
