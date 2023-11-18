@@ -91,6 +91,9 @@ class Notify:
     def version(version: str) -> str:
         return f"[bright_yellow]Sagemode [bright_red]{version}"
 
+    def exception(site, error):
+            return f"[black][[red]![black]] [blue]{site}: [bright_red]{error}..."
+
 
 if __name__ == "__main__":
     start(ascii_art)
