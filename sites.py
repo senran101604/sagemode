@@ -30,7 +30,6 @@ sites = {
     "Flickr": "https://www.flickr.com/people/{}",
     "Vimeo": "https://vimeo.com/{}",
     "SoundCloud": "https://soundcloud.com/{}",
-    "500px": "https://500px.com/p/{}?view=photos",
     # Blogging & Writing Platforms
     "Blogger": "https://{}.blogspot.com",
     "Tumblr": "https://{}.tumblr.com/",
