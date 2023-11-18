@@ -60,6 +60,7 @@ sites = {
     "Coderbyte": "https://www.coderbyte.com/profile/{}",
     "Codecademy": "https://www.codecademy.com/profiles/{}",
     # Gaming & Streaming Platforms
+    "AQW": "https://account.aq.com/CharPage?id={}",
     "Steam": "https://steamcommunity.com/id/{}",
     "SteamGroup": "https://steamcommunity.com/groups/{}",
     "SourceForge": "https://sourceforge.net/u/{}",
@@ -166,7 +167,6 @@ soft404_indicators = [
     "doesn&apos;t&nbsp;exist",
     "This page doesn't exist",
     "404 Not Found",
-    "Couldn't find this account",
     "Sorry, nobody on Reddit goes by that name",
     "The person may have been banned or the username is incorrect.",
     "Some error occured while loading page for you. Please try again",
@@ -178,6 +178,8 @@ soft404_indicators = [
     "Sorry, the page you were looking for doesn’t exist",
     "Wikipedia does not have a",
     "We could not find the page you were looking for, so we found something to make you laugh to make up for it",
+    "Not Found!",
+    '"statusMsg":"","needFix"',
 ]
 
 user_agents = [
