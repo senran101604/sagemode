@@ -7,20 +7,21 @@ import re
 import datetime
 import subprocess
 import threading
+import random
 import requests
 from argparse import ArgumentParser
 from rich.console import Console
 from bs4 import BeautifulSoup
 
 from accessories import Notify
-from sites import sites, soft404_indicators
+from sites import sites, soft404_indicators, user_agents
 
 
-__version__ = "1.0.2"
+__version__ = "1.1.3"
 
 
 class Sagemode:
-    def __init__(self, username, found_only=False):
+    def __init__(self, username: str, found_only=False):
         self.console = Console()
         self.notify = Notify
         self.positive_count = 0
@@ -29,12 +30,12 @@ class Sagemode:
         self.found_only = found_only
 
     # this function checks if the url not a false positive result, return false
-    def is_soft404(self, html_response):
+    def is_soft404(self, html_response: str) -> bool:
         # this is for checking the title bar of the page
         soup = BeautifulSoup(html_response, "html.parser")
         page_title = soup.title.string.strip() if soup.title else ""
 
-        # i know this is kinda messy but it currently solve.. reduce the problem
+        # I know this is kinda messy solution but it currently solve.. reduce the problem
         # in soft404 responses (false positives)
         for error_indicator in soft404_indicators:
             if (
@@ -46,23 +47,31 @@ class Sagemode:
                 or page_title.lower() == "instagram"
                 # patreon's removed user
                 or page_title.lower() == "patreon logo"
+                or "sign in" in page_title.lower()
             ):
                 return True
         return False
 
-    def check_site(self, site, url):
+    def check_site(self, site: str, url: str):
         url = url.format(self.username)
-        response = requests.get(url)
-        if response.status_code == 200 and self.username in response.text:
-            # further check to reduce false positive results
-            if not self.is_soft404(response.text):
-                # to prevent multiple threads from accessing/modifying the positive
-                # counts simultaneously and prevent race conditions.
-                with threading.Lock():
-                    self.positive_count += 1
-                self.console.print(self.notify.found(site, url))
-                with open(self.result_file, "a") as f:
-                    f.write(f"{url}\n")
+        # we need headers to avoid being blocked by requesting the website 403 error
+        headers = {"User-Agent": random.choice(user_agents)}
+        with requests.Session() as session:
+            response = session.get(url, headers=headers)
+        # further check to reduce false positive results
+        if (
+            response.status_code == 200
+            and self.username.lower() in response.text.lower()
+            and not self.is_soft404(response.text)
+        ):
+            # to prevent multiple threads from accessing/modifying the positive
+            # counts simultaneously and prevent race conditions.
+            with threading.Lock():
+                self.positive_count += 1
+            self.console.print(self.notify.found(site, url))
+            with open(self.result_file, "a") as f:
+                f.write(f"{url}\n")
+        # the site reurned 404 (user not found)
         else:
             if not self.found_only:
                 self.console.print(self.notify.not_found(site))
@@ -71,7 +80,7 @@ class Sagemode:
         """
         Start the search.
         """
-        self.console.print(self.notify.start(self.username, sites))
+        self.console.print(self.notify.start(self.username, len(sites)))
 
         current_datetime = datetime.datetime.now()
         date = current_datetime.strftime("%m/%d/%Y")
@@ -80,8 +89,7 @@ class Sagemode:
         with open(self.result_file, "a") as file:
             file.write(f"\n\n{29*'#'} {date}, {time} {29*'#'}\n\n")
 
-        # storage of thread objects
-        # will create 76 threads
+        # keep track of thread objects.
         threads = []
 
         try:
@@ -160,18 +168,19 @@ def main():
     )
     args = parser.parse_args()
 
-    sagemode = Sagemode(args.username, found_only=args.found)
+    sage = Sagemode(args.username, found_only=args.found)
 
-    # avoid empty username when sagemode run
+    # check if the username arguemnt is given then start searching, this will ensure
+    # that we can use the --version flag without supplying the username.
     if args.username is not None:
-        sagemode.start()
+        sage.start()
     if args.show_version:
-        sagemode.console.rule(sagemode.notify.version(__version__))
+        sage.console.rule(sage.notify.version(__version__))
     if args.do_update:
-        sagemode.do_update()
+        sage.do_update()
 
     # always check for update in every run
-    sagemode.check_for_update()
+    sage.check_for_update()
 
 
 if __name__ == "__main__":
