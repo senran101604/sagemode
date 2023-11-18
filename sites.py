@@ -37,6 +37,7 @@ sites = {
     "Medium": "https://medium.com/@{}",
     "Wix": "https://{}.wixsite.com/website",
     "Weebly": "https://{}.weebly.com",
+    "Wellfound": "https://wellfound.com/u/{}",
     "WordPress": "https://{}.wordpress.com",
     "WordPressOrg": "https://profiles.wordpress.org/{}",
     "Weblate": "https://hosted.weblate.org/user/{}",
@@ -208,13 +209,9 @@ user_agents = [
 ]
 
 if __name__ == "__main__":
-    # from rich import print as rprint
+    from rich import print as rprint
 
-    # for site, url in sites.items():
-    #     rprint(f"[bright_green]{site}: [blue]{url}")
+    for site, url in sites.items():
+        rprint(f"[bright_green]{site}: [blue]{url}")
 
-    # rprint(f"\n[magenta]{len(sites)} Sites")
-    from sagemode import Sagemode
-
-    sage = Sagemode("ranniel")
-    sage.check_site("Site", sites['HackerRank'])
+    rprint(f"\n[magenta]{len(sites)} Sites")
