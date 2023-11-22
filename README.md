@@ -1,6 +1,8 @@
 ## Sagemode Jutsu: Simple and Effective OSINT Username Search Tool
 
-![](https://github.com/senran101604/sagemode/blob/master/gif/example_usage.gif)
+<p align="center">
+ <img src="https://github.com/senran101604/sagemode/blob/master/gif/example_usage.gif" width="65%"
+</p>
 
 ## Introduction
 Sagemode Jutsu is a straightforward and efficient Open Source Intelligence
