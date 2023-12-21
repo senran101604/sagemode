@@ -178,6 +178,8 @@ def main():
     # that we can use the --version flag without supplying the username.
     if args.username is not None:
         sage.start()
+    else:
+        sage.console.print("[?] [bright_green]Please specify a [yellow]username[/yellow] to search for, see [yellow]--help[/yellow] for available parameters.")
     if args.show_version:
         sage.console.rule(sage.notify.version(__version__))
     if args.do_update:
